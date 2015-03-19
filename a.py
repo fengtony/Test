@@ -100,42 +100,42 @@ To="hyi@cccis.com"
 file_name = "./requirment.xls"
 
 server = smtplib.SMTP("smtp.163.com")
-server.login("codereview_cccis@163.com","abcd@1234") #½ösmtp·şÎñÆ÷ĞèÒªÑéÖ¤Ê±
+server.login("codereview_cccis@163.com","abcd@1234") #ä»…smtpæœåŠ¡å™¨éœ€è¦éªŒè¯æ—¶
 
-# ¹¹ÔìMIMEMultipart¶ÔÏó×öÎª¸ùÈİÆ÷
+# æ„é€ MIMEMultipartå¯¹è±¡åšä¸ºæ ¹å®¹å™¨
 main_msg = email.MIMEMultipart.MIMEMultipart()
 
-# ¹¹ÔìMIMEText¶ÔÏó×öÎªÓÊ¼şÏÔÊ¾ÄÚÈİ²¢¸½¼Óµ½¸ùÈİÆ÷
+# æ„é€ MIMETextå¯¹è±¡åšä¸ºé‚®ä»¶æ˜¾ç¤ºå†…å®¹å¹¶é™„åŠ åˆ°æ ¹å®¹å™¨
 text_msg = email.MIMEText.MIMEText("Requirment list from Zentao")
 main_msg.attach(text_msg)
 
-# ¹¹ÔìMIMEBase¶ÔÏó×öÎªÎÄ¼ş¸½¼şÄÚÈİ²¢¸½¼Óµ½¸ùÈİÆ÷
+# æ„é€ MIMEBaseå¯¹è±¡åšä¸ºæ–‡ä»¶é™„ä»¶å†…å®¹å¹¶é™„åŠ åˆ°æ ¹å®¹å™¨
 contype = 'application/octet-stream'
 maintype, subtype = contype.split('/', 1)
 
-## ¶ÁÈëÎÄ¼şÄÚÈİ²¢¸ñÊ½»¯
+## è¯»å…¥æ–‡ä»¶å†…å®¹å¹¶æ ¼å¼åŒ–
 data = open(file_name, 'rb')
 file_msg = email.MIMEBase.MIMEBase(maintype, subtype)
 file_msg.set_payload(data.read( ))
 data.close( )
 email.Encoders.encode_base64(file_msg)
 
-## ÉèÖÃ¸½¼şÍ·
+## è®¾ç½®é™„ä»¶å¤´
 basename = os.path.basename(file_name)
 file_msg.add_header('Content-Disposition',
  'attachment', filename = basename)
 main_msg.attach(file_msg)
 
-# ÉèÖÃ¸ùÈİÆ÷ÊôĞÔ
+# è®¾ç½®æ ¹å®¹å™¨å±æ€§
 main_msg['From'] = From
 main_msg['To'] = To
 main_msg['Subject'] = "Requirment"
 main_msg['Date'] = email.Utils.formatdate( )
 
-# µÃµ½¸ñÊ½»¯ºóµÄÍêÕûÎÄ±¾
+# å¾—åˆ°æ ¼å¼åŒ–åçš„å®Œæ•´æ–‡æœ¬
 fullText = main_msg.as_string( )
 
-# ÓÃsmtp·¢ËÍÓÊ¼ş
+# ç”¨smtpå‘é€é‚®ä»¶
 try:
     server.sendmail(From, To, fullText)
 finally:
@@ -143,5 +143,5 @@ finally:
 
 os.remove("./requirment.xls")
 
-exit()
+#exit()
 
